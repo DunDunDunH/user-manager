@@ -2,6 +2,7 @@ package com.dun.entity;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.dun.entity.dto.UserDto;
 import com.dun.service.UserService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -48,7 +49,23 @@ public class User {
         this.email = email;
     }
 
-    public String check(String confirmPassword,UserService userService){
+    public UserDto toUserDto(String confirmPassword){
+        UserDto userDto = new UserDto();
+        userDto.setId(this.id);
+        userDto.setName(this.name);
+        userDto.setUsername(this.username);
+        userDto.setPassword(this.password);
+        userDto.setGender(this.gender);
+        userDto.setAge(this.age);
+        userDto.setAddress(this.address);
+        userDto.setQq(this.qq);
+        userDto.setEmail(this.email);
+        userDto.setDeleted(this.isDeleted);
+        userDto.setConfirmPassword(confirmPassword);
+        return userDto;
+    }
+
+    public String saveCheck(String confirmPassword,UserService userService){
         String msg = null;
         // 密码正则表达式，为数字或字母，长度大于等于8小于等于16
         String pwdPattern = "^[0-9A-Za-z]{8,16}$";
@@ -70,10 +87,6 @@ public class User {
             msg=  "用户名已存在";
         }
         return msg;
-    }
-
-    public void deleted() {
-        this.isDeleted = true;
     }
 
     @Override

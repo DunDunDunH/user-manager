@@ -4,7 +4,6 @@
     <title>用户管理系统-登录</title>
 </head>
 <body style="margin:0px;background: url(${pageContext.request.contextPath}/static/images/login.jpg) no-repeat;background-size:100% 100%;background-attachment:fixed;">
-
 <div align="center" style="padding-top: 100px">
     <h1>欢迎登录</h1>
     <form action="${pageContext.request.contextPath}/user/login" method="post" style="border:3px solid black;width: 25%;padding-bottom: 20px">

@@ -9,8 +9,11 @@
             <if test="name != null and name != ''">
                 AND name LIKE "%"#{name}"%"
             </if>
+            <if test="username != null and username != ''">
+                AND username LIKE "%"#{username}"%"
+            </if>
             <if test="email != null and email != ''">
-                AND email LIKE "%"#{name}"%"
+                AND email LIKE "%"#{email}"%"
             </if>
             AND is_deleted = 0
         </where>

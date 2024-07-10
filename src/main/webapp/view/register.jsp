@@ -3,68 +3,6 @@
 <html>
 <head>
     <title>用户管理系统-注册</title>
-    <style type="text/css">
-        * {
-            padding: 0;
-            margin: 0;
-        }
-
-        .nav {
-            height: 30px;
-            width: 100%;
-            box-shadow: 5px 5px 8px 0px gray;
-        }
-
-        .icon {
-            float: left;
-        }
-
-        ul {
-            list-style-type: none;
-        }
-
-        ul li:first-child {
-            padding-left: 50px;
-        }
-
-        ul li {
-            float: left;
-            line-height: 30px;
-            text-align: center;
-            box-sizing: border-box;
-            cursor: pointer;
-            padding-left: 20px;
-        }
-
-        ul > li > a:hover {
-            color: lightblue;
-        }
-
-        a {
-            text-decoration: none;
-            color: black;
-        }
-
-        .lnr {
-            font-size: 20px;
-            vertical-align: -5px;
-        }
-
-        .rightside-nav {
-            float: right;
-        }
-
-        .rightside-nav a {
-            line-height: 30px;
-            text-align: center;
-            box-sizing: border-box;
-            cursor: pointer;
-        }
-
-        .rightside-nav a:last-child {
-            padding-right: 80px;
-        }
-    </style>
 </head>
 <body style="margin:0px;background: url(${pageContext.request.contextPath}/static/images/login.jpg) no-repeat;background-size:100% 100%;background-attachment:fixed;">
 <div align="center" style="padding-top: 100px">

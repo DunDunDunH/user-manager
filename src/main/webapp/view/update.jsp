@@ -47,6 +47,7 @@
     <h1>修改用户</h1>
     <form action="${pageContext.request.contextPath}/user/save" method="post"
           style="border:3px solid black;width: 25%;padding-bottom: 20px">
+        <input id="id" name="id" type="hidden" value="${user.id}"></p>
         <p>&nbsp&nbsp&nbsp姓名:&nbsp&nbsp&nbsp<input id="name" name="name" type="text" value="${user.name}" readonly>&nbsp&nbsp</p>
         <p>&nbsp&nbsp用户名:&nbsp&nbsp<input id="username" name="username" type="text" value="${user.username}">&nbsp&nbsp</p>
         <p>&nbsp&nbsp&nbsp密码:&nbsp&nbsp&nbsp<input id="password" name="password" type="password" value="${user.password}"></p>

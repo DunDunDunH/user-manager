@@ -6,6 +6,8 @@ import com.dun.entity.command.DeleteUserBatchIdsCommand;
 import com.dun.entity.command.GenericWriteByIdCommand;
 import com.dun.entity.command.LoginCommand;
 import com.dun.entity.command.SaveUserCommand;
+import com.dun.entity.dto.UserDto;
+import com.dun.entity.query.GenericReadByIdQuery;
 import com.dun.entity.query.GetUserListQuery;
 import com.dun.service.UserService;
 import com.github.pagehelper.Page;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.regex.Pattern;
 
 @AllArgsConstructor
 @Controller
@@ -53,15 +54,8 @@ public class UserController {
             if (user == null || !user.getPassword().equals(command.getPassword())) {
                 request.setAttribute("msg", "用户名或密码错误");
             } else {
-                // 用户列表
                 GetUserListQuery query = new GetUserListQuery();
-                Page<User> cars = userService.getList(query);
-                request.setAttribute("userList", cars.getResult());
-                request.setAttribute("pages", cars.getPages());
-                request.setAttribute("pageNum", cars.getPageNum());
-                request.setAttribute("pageSize", cars.getPageSize());
-                request.setAttribute("total", cars.getTotal());
-                request.setAttribute("query", query);
+                getUserPage(query, request);
                 // 保存session
                 session.setAttribute("name", user.getName());
                 return "index";
@@ -129,7 +123,9 @@ public class UserController {
     }
 
     @GetMapping("indexPage")
-    public String indexPage() {
+    public String indexPage(HttpServletRequest request) {
+        GetUserListQuery query = new GetUserListQuery();
+        getUserPage(query, request);
         return "index";
     }
 
@@ -139,29 +135,26 @@ public class UserController {
     }
 
     @GetMapping("updatePage")
-    public String updatePage() {
+    public String updatePage(GenericReadByIdQuery query, HttpServletRequest request) {
+        User user = userService.getById(query.getId());
+        UserDto userDto = user.toUserDto(user.getPassword());
+        request.setAttribute("user", userDto);
         return "update";
     }
 
     @GetMapping("getList")
     public String getUserList(GetUserListQuery query, HttpServletRequest request) {
         // 用户列表
-        Page<User> cars = userService.getList(query);
-        request.setAttribute("userList", cars.getResult());
-        request.setAttribute("pages", cars.getPages());
-        request.setAttribute("pageNum", cars.getPageNum());
-        request.setAttribute("pageSize", cars.getPageSize());
-        request.setAttribute("total", cars.getTotal());
-        request.setAttribute("query", query);
+        getUserPage(query, request);
         return "index";
     }
 
     @PostMapping("save")
-    public String saveUser(SaveUserCommand command, HttpServletRequest request) {
+    public String saveUser(SaveUserCommand command, HttpServletRequest request, HttpSession session) {
         request.setAttribute("user", command);
         // 判断登录状态
         boolean isLogin;
-        String currentName = (String) request.getAttribute("name");
+        String currentName = (String) session.getAttribute("name");
         if (StringUtils.isBlank(currentName)) {
             isLogin = false;
         } else {
@@ -176,33 +169,39 @@ public class UserController {
         } else {
             // 修改
             user = userService.getById(command.getId());
-            user.update(user.getUsername(), user.getPassword(), user.getGender(), user.getAge(), user.getAddress(), user.getQq(), user.getEmail());
+            user.update(command.getUsername(), command.getPassword(), command.getGender(), command.getAge(), command.getAddress(), command.getQq(), command.getEmail());
         }
         // 校验
-        String msg = user.check(command.getConfirmPassword(), userService);
+        String msg = user.saveCheck(command.getConfirmPassword(), userService);
         if (StringUtils.isBlank(msg)) {
             userService.save(user);
-            if (isLogin){
+            if (isLogin) {
+                GetUserListQuery query = new GetUserListQuery();
+                getUserPage(query, request);
+                request.removeAttribute("user");
                 return "index";
-            }else {
+            } else {
                 return "login";
             }
-        }else {
-            if (isLogin){
-                return "register";
-            }else {
-                if (StringUtils.isBlank(command.getId())){
+        } else {
+            request.setAttribute("msg", msg);
+            if (isLogin) {
+                if (StringUtils.isBlank(command.getId())) {
                     return "add";
-                }else {
+                } else {
                     return "update";
                 }
+            } else {
+                return "register";
             }
         }
     }
 
     @GetMapping("deleteById")
-    public String deleteUserById(GenericWriteByIdCommand command) {
+    public String deleteUserById(GenericWriteByIdCommand command, HttpServletRequest request) {
         userService.deleteById(command.getId());
+        GetUserListQuery query = new GetUserListQuery();
+        getUserPage(query, request);
         return "index";
     }
 
@@ -210,5 +209,16 @@ public class UserController {
     public String deleteUserBatchIds(DeleteUserBatchIdsCommand command) {
         userService.deleteBatchIds(command.getIds());
         return "index";
+    }
+
+    private void getUserPage(GetUserListQuery query, HttpServletRequest request) {
+        // 用户列表
+        Page<User> users = userService.getList(query);
+        request.setAttribute("userList", users.getResult());
+        request.setAttribute("pages", users.getPages());
+        request.setAttribute("pageNum", users.getPageNum());
+        request.setAttribute("pageSize", users.getPageSize());
+        request.setAttribute("total", users.getTotal());
+        request.setAttribute("query", query);
     }
 }

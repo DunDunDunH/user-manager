@@ -80,27 +80,21 @@
 </div>
 <div align="center" style="padding-top: 100px">
     <h1>用户信息列表</h1>
-    <table border="2" style="font-size: 25px">
+    <table border="2" style="font-size: 25px;">
         <tr>
-            <td colspan="9">
+            <td colspan="8">
                 <form action="${pageContext.request.contextPath}/user/getList" method="get">
                     姓名：<input type="text" id="name" name="name" value="${query.name}">
                     用户名：<input type="text" id="username" name="username" value="${query.username}">
                     邮箱：<input type="text" id="email" name="email" value="${query.email}">
                     <input type="submit" class="button" value="搜索">
                 </form>
-<%--            </td>--%>
-<%--            <td colspan="3">--%>
                 <button><a href="${pageContext.request.contextPath}/user/addPage">添加用户</a></button>
-                <button><a href="${pageContext.request.contextPath}/user/delete">删除选中</a></button>
             </td>
         </tr>
         <tr>
-            <th>
-                <input type="radio">
-            </th>
             <th>姓名</th>
-            <th>名称</th>
+            <th>用户名</th>
             <th>性别</th>
             <th>年龄</th>
             <th>住址</th>
@@ -109,10 +103,7 @@
             <th>操作</th>
         </tr>
         <c:forEach var="user" items="${userList}">
-            <tr>
-                <td>
-                    <input type="radio">
-                </td>
+            <tr align="center">
                 <td>${user.name}</td>
                 <td>${user.username}</td>
                 <td>
@@ -130,7 +121,7 @@
             </tr>
         </c:forEach>
         <tr>
-            <td colspan="6">
+            <td colspan="8">
                 <div>
                     <nav aria-label="Page navigation">
                         <ul class="pagination">
