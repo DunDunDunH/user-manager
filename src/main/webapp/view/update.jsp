@@ -56,10 +56,11 @@
             <input type="radio" name="gender" value="1" <c:if test="${user.gender!=2}">checked="checked"</c:if>>男
             <input type="radio" name="gender" value="2" <c:if test="${user.gender==2}">checked="checked"</c:if>>女
         <p>&nbsp&nbsp&nbsp年龄:&nbsp&nbsp&nbsp<input id="age" name="age" type="number" value="${user.age}"></p>
-        <p>&nbsp&nbsp&nbsp住址:&nbsp&nbsp&nbsp<input id="address" name="address" type="text" value="${user.address}"></p>
+        <p>&nbsp&nbsp&nbsp籍贯:&nbsp&nbsp&nbsp<input id="address" name="address" type="text" value="${user.address}"></p>
         <p>&nbsp&nbsp&nbspQQ:&nbsp&nbsp&nbsp&nbsp<input id="qq" name="qq" type="number" value="${user.qq}"></p>
         <p>&nbsp&nbsp&nbsp邮箱:&nbsp&nbsp&nbsp<input id="email" name="email" type="text" value="${user.email}"></p>
         <input type="submit" class="button" value="确定">
+        <input type="reset" class="button" value="重置">
         <button><a href="${pageContext.request.contextPath}/user/indexPage">返回</a></button><br><br>
         <span style="color:red;font-size:20px;font-weight: bold">${msg}</span>
     </form>

@@ -14,7 +14,7 @@ public class SaveUserCommand {
     private String confirmPassword; // 确认密码
     private String gender; // 性别。1：男；2：女
     private Integer age; // 年龄
-    private String address; // 住址
+    private String address; // 籍贯
     private String qq; // QQ
     private String email; // 邮箱
 }

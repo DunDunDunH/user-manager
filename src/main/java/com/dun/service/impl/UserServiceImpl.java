@@ -27,9 +27,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isExistName(String name, String id) {
+    public boolean isExistName(String name, int id) {
         User user = userMapper.getByName(name);
-        return user != null && !user.getId().equals(id);
+        return user != null && user.getId()!=id;
     }
 
     @Override
@@ -63,8 +63,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isExistUsername(String username, String id) {
+    public boolean isExistUsername(String username, int id) {
         User user = userMapper.getByUsername(username);
-        return user != null && !user.getId().equals(id);
+        return user != null && user.getId()!=id;
+    }
+
+    @Override
+    public void deleteBatchByIds(String[] ids) {
+        userMapper.deleteBatchByIds(ids);
     }
 }

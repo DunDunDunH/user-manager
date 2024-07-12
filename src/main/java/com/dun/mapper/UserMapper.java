@@ -15,4 +15,6 @@ public interface UserMapper extends BaseMapper<User> {
     Page<User> getList(GetUserListQuery query);
 
     User getByUsername(String username);
+
+    void deleteBatchByIds(String[] ids);
 }

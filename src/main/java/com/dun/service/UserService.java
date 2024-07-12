@@ -9,7 +9,7 @@ import java.util.List;
 public interface UserService {
     void save(User user);
 
-    boolean isExistName(String name, String id);
+    boolean isExistName(String name, int id);
 
     User getByName(String name);
 
@@ -23,5 +23,7 @@ public interface UserService {
 
     User getByUsername(String username);
 
-    boolean isExistUsername(String username, String id);
+    boolean isExistUsername(String username, int id);
+
+    void deleteBatchByIds(String[] ids);
 }

@@ -1,5 +1,7 @@
 package com.dun.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.dun.entity.dto.UserDto;
@@ -14,20 +16,20 @@ import java.util.regex.Pattern;
 @Data
 public class User {
 
-    private String id; // ID
+    @TableId(type = IdType.AUTO)
+    private int id; // ID
     private String name; // 姓名
     private String username; // 用户名
     private String password; // 密码
     private String gender; // 性别。1：男；2：女
     private Integer age; // 年龄
-    private String address; // 住址
+    private String address; // 籍贯
     private String qq; // QQ
     private String email; // 邮箱
     @TableLogic(value = "0", delval = "1")
     private boolean isDeleted; // 是否删除。0：否；1：是
 
     public User(String name,String username, String password, String gender, Integer age, String address, String qq, String email) {
-        this.id = UUID.randomUUID().toString().replace("-", "");
         this.name = name;
         this.username = username;
         this.password = password;

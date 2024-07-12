@@ -6,6 +6,6 @@ import lombok.Data;
 public class GetUserListQuery extends PagingQuery{
 
     private String name; // 姓名
-    private String username; // 用户名
+    private String address; // 籍贯
     private String email; // 邮箱
 }

@@ -2,10 +2,7 @@ package com.dun.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.dun.entity.User;
-import com.dun.entity.command.DeleteUserBatchIdsCommand;
-import com.dun.entity.command.GenericWriteByIdCommand;
-import com.dun.entity.command.LoginCommand;
-import com.dun.entity.command.SaveUserCommand;
+import com.dun.entity.command.*;
 import com.dun.entity.dto.UserDto;
 import com.dun.entity.query.GenericReadByIdQuery;
 import com.dun.entity.query.GetUserListQuery;
@@ -205,9 +202,13 @@ public class UserController {
         return "index";
     }
 
-    @GetMapping("deleteBatchIds")
-    public String deleteUserBatchIds(DeleteUserBatchIdsCommand command) {
-        userService.deleteBatchIds(command.getIds());
+    @GetMapping("deleteBatch")
+    public String deleteUserBatchIds(GenericBatchWriteByIdsCommand command, HttpServletRequest request) {
+        if (command.getIds()!=null && command.getIds().length>0){
+            userService.deleteBatchByIds(command.getIds());
+        }
+        GetUserListQuery query = new GetUserListQuery();
+        getUserPage(query, request);
         return "index";
     }
 

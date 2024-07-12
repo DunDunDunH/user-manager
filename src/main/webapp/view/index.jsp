@@ -82,30 +82,33 @@
     <h1>用户信息列表</h1>
     <table border="2" style="font-size: 25px;">
         <tr>
-            <td colspan="8">
+            <td colspan="11">
                 <form action="${pageContext.request.contextPath}/user/getList" method="get">
                     姓名：<input type="text" id="name" name="name" value="${query.name}">
-                    用户名：<input type="text" id="username" name="username" value="${query.username}">
+                    籍贯：<input type="text" id="address" name="address" value="${query.address}">
                     邮箱：<input type="text" id="email" name="email" value="${query.email}">
                     <input type="submit" class="button" value="搜索">
                 </form>
                 <button><a href="${pageContext.request.contextPath}/user/addPage">添加用户</a></button>
+                <button><a href="javascript:void(0);" id="delSelected">删除选中</a></button>
             </td>
         </tr>
         <tr>
+            <th><input type="checkbox" id="all"></th>
+            <th>编号</th>
             <th>姓名</th>
-            <th>用户名</th>
             <th>性别</th>
             <th>年龄</th>
-            <th>住址</th>
+            <th>籍贯</th>
             <th>QQ</th>
             <th>邮箱</th>
             <th>操作</th>
         </tr>
         <c:forEach var="user" items="${userList}">
             <tr align="center">
+                <td><input type="checkbox" name="userId"  value="${user.id}"></td>
+                <td>${user.id}</td>
                 <td>${user.name}</td>
-                <td>${user.username}</td>
                 <td>
                     <c:if test="${user.gender == 1}">男</c:if>
                     <c:if test="${user.gender == 2}">女</c:if>
@@ -121,7 +124,7 @@
             </tr>
         </c:forEach>
         <tr>
-            <td colspan="8">
+            <td colspan="11">
                 <div>
                     <nav aria-label="Page navigation">
                         <ul class="pagination">
@@ -174,3 +177,25 @@
 </body>
 </html>
 
+<script type="text/javascript">
+    window.onload=function() {
+        //给删除选中按钮添加点击事件
+        document.getElementById("delSelected").onclick = function () {
+            var deletedIds = [];
+            var cbs = document.getElementsByName("userId");
+            for (var i = 0; i < cbs.length; i++) {
+                if (cbs[i].checked) {  //一旦有被选的项，就停止循环
+                    deletedIds.push(cbs[i].value);
+                }
+            }
+            window.location.href="deleteBatch?ids="+deletedIds;
+        };
+
+        document.getElementById("all").onclick=function () {
+            var  cbs = document.getElementsByName("userId");
+            for (var i = 0;i < cbs.length; i++){
+                cbs[i].checked = this.checked;
+            }
+        }
+    }
+</script>
